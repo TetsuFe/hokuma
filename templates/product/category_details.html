@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% load show_pagenated_product_list %}
+{% block css %}
+{% endblock %}
+{% block content %}
+  <div class="container">
+    <h2>カテゴリ：「{{ category.name }}」</h2>
+    <nav aria-label="ぱんくずリスト">
+     <ol class="breadcrumb">
+       {% for category in category_parent_chain %}
+         {% if forloop.counter1 == category_parent_chain.count %}
+           <li class="breadcrumb-item">
+         {% else %}
+           <li class="breadcrumb-item active">
+         {% endif %}
+             <a href="{% url 'product:category_details' category.pk %}">
+               {{ category.name }}
+             </a>
+           </li>
+       {% endfor %}
+     </ol>
+    </nav>
+    {% if child_categories %}
+      <span>サブカテゴリ：</span>
+      {% for child_category in child_categories %}
+        <a href="{% url 'product:category_details' child_category.pk %}">{{ child_category.name }}</a>
+      {% endfor %}
+    {% endif %}
+    <p>{{ category.description }}</p>
+    {% if category_products %}
+      {% show_pagenated_product_list request category_products %}
+    {% else %}
+      <p>このカテゴリの商品はまだありません。最初の出品者になるチャンスです！<a href="{% url 'product:create_product' %}">出品する</a></p>
+    {% endif %}
+  </div>
+{% endblock %}

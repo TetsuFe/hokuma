@@ -1,0 +1,18 @@
+{% load static %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/footer.css' %}">
+{% endblock %}
+<section class="footer">
+  <div class="container">
+    <section class="footer-links">
+      <a class="footer-link" href="{% url 'guide:sell_guide' %}">出品・販売ガイド</a>
+      <a class="footer-link" href="{% url 'guide:buy_guide' %}">購入ガイド</a>
+      <a class="footer-link" href="{% url 'contact:post_contact' %}">お問い合わせ</a>
+      <a class="footer-link" href="{% url 'site_rules:privacy_policy' %}">プライバシーポリシー</a>
+      <a class="footer-link" href="{% url 'site_rules:tos' %}">利用規約</a>
+      <a class="footer-link" href="https://github.com/HUITCLUB/hokudai_furima">GITHUB</a>
+      <a class="footer-link" href="https://twitter.com/hufurima">Twitter</a>
+    </section>
+    <p class="copylight">&copy; HUITCLUB</p>
+  </div>
+</section>

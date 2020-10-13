@@ -1,0 +1,58 @@
+{% load static %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/product_items.css' %}">
+  <link rel="stylesheet" href="{% static 'css/pagenation_item.css' %}">
+{% endblock %}
+<div class="container">
+  <div class="row">
+  {% for product in product_list %}
+    <div class="col-6 col-lg-3" style="padding:2px;">
+      <div class="item-wrap">
+        <div class="item">
+          <a href="{% url 'product:product_details' pk=product.pk %}">
+            {% if product.is_sold %}
+              <div class="ribbon_area">
+                <span class="ribbon">SOLD</span>
+              </div>
+            {% endif %}
+            <div class="square-box">
+              {% if product.productimage_set.first %}
+                <img data-src="{{ product.productimage_set.first.thumbnail_url }}" class="lazyload img-fluid">
+              {% else %}
+                <img data-src="{% static 'img/placeholder.png' %}" class="lazyload img-fluid">
+              {% endif %}
+            </div>
+            <div class="caption">
+              <h4>{{ product.title}}</h4>
+              <p>¥ {{ product.price }}</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+  <nav class="page-navigation">
+    <ul class="pagination">
+      <li class="page-item">
+        <a class="page-link" href="{{ url_with_params }}page=1" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+          <span class="sr-only">Previous</span>
+        </a>
+      </li>
+      {% if product_list.has_previous %}
+        <li class="page-item"><a class="page-link" href="{{ url_with_params }}page={{ product_list.previous_page_number }}">{{ product_list.previous_page_number }}</a></li>
+      {% endif %}
+        <li class="page-item active"><a class="page-link" href="{{ url_with_params }}page={{ product_list.number }}">{{ product_list.number }}</a></li>
+      {% if product_list.has_next %}
+        <li class="page-item"><a class="page-link" href="{{ url_with_params }}page={{ product_list.next_page_number }}">{{ product_list.next_page_number }}</a></li>
+      {% endif %}
+      <li class="page-item">
+        <a class="page-link" href="{{ url_with_params }}page={{ product_list.paginator.num_pages }}" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+          <span class="sr-only">Next</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>

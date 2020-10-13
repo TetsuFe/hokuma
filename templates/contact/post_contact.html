@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block content %}
+  <div class="container">
+    <h2 style="text-align:center">お問い合わせ</h2>
+    <p>何かございましたら下記のフォームよりお問い合わせください</p>
+        <form method="POST" action="{% url 'contact:post_contact' %}" id="user_talk_form">{% csrf_token %}
+          {% bootstrap_form form layout='virtical' %}
+          <div class="form-group column" id="save-button">
+            <button type="submit" class="save btn btn-default">送信</button>
+          </div>
+        </form>
+  </div>
+{% endblock %}

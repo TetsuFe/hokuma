@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block content %} 
+<div class="container">
+    <form method="post" action="{% url 'account:signup' %}">
+        <h2>新規登録</h2>
+        {% csrf_token %}
+        {% bootstrap_form form layout='virtical' %}
+        <div class="form-group column">
+            <button type="submit" class="btn btn-success">
+                利用規約・プライバシーポリシーに同意して、登録
+            </button>
+        </div>
+        <ul>
+          <li><a href="{% url 'site_rules:privacy_policy' %}" target="_blank">プライバシーポリシー</a></li>
+          <li><a href="{% url 'site_rules:tos' %}" target="_blank">利用規約</a></li>
+        </ul>
+    </form>
+    <p>アカウントを作成している場合、<a href="{% url "account:login" %}">ログイン</a></p>
+</div>
+{% endblock %}

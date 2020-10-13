@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load static %}
+{% load show_pagenated_product_list %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/footer_sell_button.css' %}">
+{% endblock %}
+{% block content %}
+  <div class="container">
+    {% if not request.user.is_authenticated %}
+    <div class="row">
+      <div class="col-lg-6 col-12">
+        <section style="margin-bottom: 30px">
+          <h2>ホクマの特徴</h2>
+          <hr>
+          <p>
+            <i class="fa fa-check" style="color: #2cbe4e"></i>
+            <strong>北大生だけ</strong>が使える安心のフリマWebサービス
+          </p>
+          <p>
+            <i class="fa fa-check" style="color: #2cbe4e"></i>
+            使わなくなった<strong>教科書</strong>・家具などを売り買いできます
+          </p>
+          <p>
+            <i class="fa fa-check" style="color: #2cbe4e"></i>
+            <strong>直接会って渡すので完全手数料０！</strong>高く売れる！安く買える！
+          </p>
+        </section>
+        <section style="margin-bottom: 30px">
+          <h2>はじめての方向けガイド</h2>
+          <hr>
+          <ul>
+            <li>
+              <a href="{% url 'guide:buy_guide' %}">購入ガイド</a>
+            <li>
+              <a href="{% url 'guide:sell_guide' %}">出品・販売ガイド</a>
+            </li>
+          </ul>
+        </section>
+      </div>
+      <section class="col-lg-6 d-lg-block d-none" style="margin-bottom: 30px">
+        {% include "sold_timeline.html" %}
+      </section>
+    </div>
+    {% endif %}
+    <section id="hokuma-bannar-pr">
+      {% include 'hokuma_bannar_pr.html' %}
+    </section>
+    <section id="lecture-category-search-link">
+      {% include 'lecture/lecture_category_list_pr.html' %}
+    </section>
+    <section>
+      <h2>最新商品</h2>
+      <hr>
+      {% if product_list %}
+        {% show_pagenated_product_list request product_list %}
+      {% else %}
+        <p>商品はまだ一つも出品されていません。最初の出品者になるチャンスです！<a href="{% url 'product:create_product' %}">出品する</a></p>
+      {% endif %}
+    </section>
+  </div>
+  {% include "footer_sell_button.html" %}
+{% endblock %}

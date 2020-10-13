@@ -1,0 +1,26 @@
+.sns-buttons {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.fb-share-button > span {
+  display: inline-block;
+	vertical-align: baseline !important;
+}
+.twitter-button {
+  display: inline-block;
+  vertical-align: top;
+}
+
+#carouselIndicators {
+  background-color: #cccccc;
+}
+
+.carousel-item {
+  height: 300px;
+}
+
+.carousel-item > img {
+  max-height: 300px;
+  margin: 0 auto;
+  display:block;
+}

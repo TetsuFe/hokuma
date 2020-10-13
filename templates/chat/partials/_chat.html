@@ -1,0 +1,87 @@
+{% load static %}
+{% load bootstrap4 %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/chat.css' %}">
+</head>
+
+<div class="container">
+<div id="chat">
+    <h1 style = "font-size:20px;" >チャット</h1>
+    <p>・商品の価格交渉や受け渡し方法確認等について、自由にチャットしてください</p>
+    <p style="margin-bottom:45px;">・チャットへの投稿が来たとき、メール通知されます。（<a href="{% url 'notification:index' %}">お知らせ</a>にも表示されます）</p>
+    <p>チャット例</p>
+    <ul>
+      <li>「待ち合わせ場所と時間はどうしましょうか？○○図書館・○○食堂にしますか？」</li>
+      <li>「初めまして。こちらの商品購入を考えています。突然ですみませんが、○○○円程のお値引きは可能でしょうか？ご検討よろしくお願いします」</li>
+      <li>「連絡手段はどうしましょうか？自分のTwitterアカウントは@○○○です！」</li>
+    </ul>
+    <ol class="talk_list">
+    {% for talk in talks %}
+        {% if talk.talker == request.user %}
+            <div class="user_talk" id="{{talk.id}}">
+        {% else %}
+            <div class="others_talk" id="{{talk.id}}">
+        {% endif %}
+              {% if talk.talker != request.user %}
+                <div><a href="{% url 'account:others_page' talk.talker.pk %}">{{ talk.talker }}</a></div>
+              {% else %}
+                <div>{{ talk.talker }}</div>
+              {% endif %}
+              <div class="balloon">{{ talk.sentence | urlize | linebreaksbr }}</div>
+              <div>{{ talk.created_date }}</div>
+              <form method="POST" action="{% url 'chat:delete_talk' %}" class="delete_talk_form">{% csrf_token %}
+                  <input type="hidden" name="talk_id" value={{talk.id}}>
+                  {% if talk.talker == request.user %}
+                    <button type="submit" class="save btn btn-default">削除</button>
+                  {% endif %}
+              </form>
+            </div>
+    {% endfor %}
+    </ol>
+</div>
+
+{% if request.user.is_authenticated %}
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2 col-12">
+            <form method="POST" action="{% url 'chat:post_talk' %}" id="user_talk_form">{% csrf_token %}
+                <input type="hidden" name="product_id" value={{product.id}}>
+                <input type="hidden" name="talk_reciever_id" value={{talk_reciever_id}}>
+                {% bootstrap_form form layout='virtical' %}
+                <div class="form-group column" id="save-button">
+                    <button type="submit" class="save btn btn-default">送信</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div>
+      {% if product.seller == request.user %}
+        <form method="POST" action="{% url "product:decide_to_sell" product.pk wanting_user.pk %}" id="dicide-to-sell-form">{% csrf_token %}
+        {% if not product.is_sold %}
+          <button type="submit" class="save btn btn-default">このユーザに販売</button>
+        {% else %}
+          {% if wanting_user == product.buyer %}
+            <button type="submit" style="text-align: center;" disabled class="save btn btn-default">このユーザに販売を確定済みです</button>
+          {% else %}
+            <button type="submit" style="text-align: center;" disabled class="save btn btn-default">他のユーザに販売を確定済みです</button>
+          {% endif %}
+        {% endif %}
+        </form>
+      {% else %}
+        {% if product.is_sold %}
+          {% if request.user == product.buyer %}
+            <form method="POST" action="{% url "product:complete_to_recieve" product.pk %}" id="dicide-to-sell-form">{% csrf_token %}
+              <button type="submit" class="save btn btn-default">商品を受け取りました</button>
+            </form>
+          {% else %}
+            <button type="button" disabled class="btn btn-default">商品は売り切れました</button>
+          {% endif %}
+        {% endif %}
+      {% endif %}
+    </div>
+{% else %}
+    <p>チャットに投稿するにはログインが必要です</p>
+    <a href="{% url 'account:login' %}">ログイン</a>
+{% endif %}
+</div>
+

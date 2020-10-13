@@ -1,0 +1,12 @@
+#user-icon {
+  text-align: center;
+}
+
+#user-icon img {
+  max-height: 100px;
+  max-width: 100px;
+}
+
+#user-name {
+  text-align: center;
+}

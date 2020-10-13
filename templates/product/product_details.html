@@ -1,0 +1,314 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/product_items.css' %}">
+  <link rel="stylesheet" href="{% static 'css/footer_sell_button.css' %}">
+  <link rel="stylesheet" href="{% static 'css/details_page.css' %}">
+{% endblock %}
+{% block content %}
+  <div class="container">
+    <div class="product">
+      {% if product.published_date %}
+        <div class="date">
+          最終更新: {{ product.published_date }}
+        </div>
+      {% endif %}
+      <div class="row">
+        <div class="col-12 col-md-6">
+          {% if product.is_sold %}
+            <div class="ribbon_area big_ribbon_area">
+              <span class="ribbon">SOLD</span>
+            </div>
+          {% endif %}
+          <div id="carouselIndicators" class="carousel slide" data-ride="carousel" data-interval="false">
+            <ol class="carousel-indicators">
+              {% for _ in product.productimage_set.all|dictsort:"id" %}
+                {% if forloop.counter0 == 0 %}
+                  <li data-target="#carouselIndicators" data-slide-to="{{forloop.counter0}}" class="active"></li>
+                {% else %}
+                  <li data-target="#carouselIndicators" data-slide-to="{{forloop.counter0}}"></li>
+                {% endif %}
+              {% endfor %}
+            </ol>
+            <div class="carousel-inner">
+              {% if product.productimage_set.all %}
+                {% for image in product.productimage_set.all|dictsort:"id" %}
+                  {% if forloop.counter0 == 0 %}
+                    <div class="carousel-item active">
+                  {% else %}
+                    <div class="carousel-item text-center">
+                  {% endif %}
+                  {% if image %}
+                    <img data-src="{{ image.thumbnail_url }}" class="lazyload img-fluid">
+                  {% else %}
+                    <img data-src="{% static 'img/placeholder.png' %}" class="lazyload img-fluid">
+                  {% endif %}
+                </div>
+                {% endfor %}
+              {% else %}
+                <div class="carousel-item active">
+                  <img data-src="{% static 'img/placeholder.png' %}" class="lazyload img-fluid">
+                </div>
+              {% endif %}
+              </div>
+              <a class="carousel-control-prev" href="#carouselIndicators" data-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+              </a>
+              <a class="carousel-control-next" href="#carouselIndicators" data-slide="next">
+                <span class="carousel-control-next-icon"></span>
+              </a>
+            </div>
+          </div>
+          <div class="col-12 col-md-6" style="padding:20px;">
+            <div class="h3">{{ product.title }}</div>
+            <div class="h4" style="color:#ff5722"> {{ product.price }} 円</div>
+            <div class="h5 text-secondary"> {{ product.watched_count }} views</div>
+            {% if request.user.is_authenticated %}
+              {% if request.user == product.seller %}
+                <div class="row">
+                  <div class="col-md-8" style="margin:15px 15px 0px 15px; padding:0;">
+                    <div><a href="{% url "product:update_product" product.pk %}" class="btn btn-lg btn-block btn-info" style="display:block; color:white; text-decoration:none">商品情報の編集</a></div>
+                  </div>
+                  <p style="margin:25px 15px 0px 15px; padding:0;">この商品への<span style="color:#25b425">購入希望</span>または<span style="color:#fe6222">非公開チャット</span>への投稿が来たとき、メール通知されます。（<a href="{% url 'notification:index' %}">お知らせ</a>にも表示されます）</p>
+                </div>
+              {% else %}
+                {% if request.user in wanting_users %}
+                  {% if not product.is_sold %}
+                    <form action="{% url 'product:cancel_want_product' product.pk %}" method="POST" enctype="multipart/form-data" class="post-form">{% csrf_token %}
+                      <div class="row">
+                        <div class="col-md-8" style="margin:0 15px; padding:0;">
+                          <button type="button" name="cancel-want" class="btn btn-lg btn-block" style="background-color:#25b425;color:white;" data-toggle="modal" data-target="#cancel-product-modal">購入希望のキャンセル</button>
+                          <div class="modal fade" id="cancel-product-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLabel">注意</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                  悪質な購入希望のキャンセル行為は、アカウント停止及び削除の対象になります。購入希望をキャンセルしてよろしいですか？
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="submit" class="btn btn-primary">はい</button>
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">いいえ</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  {% else %}
+                    <div class="row">
+                      <div class="col-md-8" style="margin:0 15px; padding:0;">
+                        {% if request.user == product.buyer %}
+                          <button type="button" class="btn btn-lg btn-block" disabled style="background-color:#25b425;color:white;">購入済み</button>
+                        {% else %}
+                          <button type="button" class="btn btn-lg btn-block" disabled style="background-color:#25b425;color:white;">売り切れ</button>
+                        {% endif %}
+                      </div>
+                    </div>
+                  {% endif %}
+                {% else %}
+                  <form action="{% url 'product:want_product' product.pk %}" method="POST" enctype="multipart/form-data" class="post-form">{% csrf_token %}
+                    <div class="row">
+                      <div class="col-md-8" style="margin:0 15px; padding:0;">
+                        {% if not product.is_sold %}
+                          <button type="submit" name="want" class="btn btn-lg btn-block" style="background-color:#25b425;color:white;">購入希望</button>
+                        {% else %}
+                          <button type="button" class="btn btn-lg btn-block" disabled style="background-color:#25b425;color:white;">売り切れ</button>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </form>
+                {% endif %}
+                {% if request.user != product.seller %}
+                  <div class="row">
+                    <div class="col-md-8" style="margin:15px 15px 0px 15px; padding:0;">
+                      <a href="{% url 'product:product_direct_chat' product.pk request.user.pk %}" class="btn btn-lg btn-block" style="display:block; color:white; background-color:#fe6222; text-decoration:none">非公開チャット</a>
+                    </div>
+                  </div>
+                {% endif %}
+              {% endif %}
+              <div class="row">
+                <div class="col-md-8" style="margin:15px 15px; padding:0;">
+                  <button type="button" id="toggle-watchlist-button" name="toggle-watchlist" class="btn btn-lg btn-block" style="background-color:#223a70;color:white;">&nbsp;</button>
+                </div>
+              </div>
+            {% else %}
+              <form action="{% url 'product:want_product' product.pk %}" method="POST" enctype="multipart/form-data" class="post-form">{% csrf_token %}
+                <div class="row">
+                  <div class="col-md-8" style="margin:0 15px; padding:0;">
+                    {% if not product.is_sold %}
+                      <button type="submit" name="want" class="btn btn-lg btn-block" style="background-color:#25b425;color:white;">購入希望</button>
+                    {% else %}
+                      <button type="button" class="btn btn-lg btn-block" disabled style="background-color:#25b425;color:white;">売り切れ</button>
+                    {% endif %}
+                  </div>
+                </div>
+              </form>
+            {% endif %}
+          </div>
+          <div class="sns-buttons">
+            <div class="twitter-button">
+               <a href="//twitter.com/share" class="twitter-share-button" data-text="{{product.title}} {{'https://hufurima.com'}}{{request.path}} #ホクマ #北大 @hufurimaさんから" data-url="{{'https://hufurima.com'}}{{request.path}}" data-lang="ja">Tweet</a>
+            </div>
+            <div class="fb-share-button" data-href="{{'https://hufurima.com'}}{{request.path}}" data-layout="button_count" data-size="small" data-mobile-iframe="true">
+              <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{'https://hufurima.com'}}{{request.path}}&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a>
+            </div>
+          </div>
+        </div>
+
+        {% include 'product/_product_info_table.html' %}
+
+        <p>{{ product.description | urlize | linebreaksbr }}</p>
+        <br>
+        {% if request.user.is_authenticated %}
+          {% if product.seller.id == request.user.id %}
+            <h5>購入希望中のユーザー</h5>
+            {% if wanting_users %}
+              {% for wanting_user in wanting_users %}
+                <table class="table">
+                  <tbody>
+                  <tr>
+                    <td>{{ wanting_user }}</td>
+                    <td><a href="{% url 'product:product_direct_chat' product.pk wanting_user.pk %}">非公開チャット</a></td>
+                    <td>
+                      <form method="POST" action="{% url "product:decide_to_sell" product.pk wanting_user.pk %}" id="dicide-to-sell-form">{% csrf_token %}
+                        {% if not product.is_sold %}
+                          <button type="submit" class="save btn btn-default">このユーザに販売</button>
+                        {% else %}
+                          {% if wanting_user == product.buyer %}
+                            <button type="submit" style="text-align: center;" disabled class="save btn btn-default">このユーザに販売を確定済みです</button>
+                          {% else %}
+                            <button type="submit" style="text-align: center;" disabled class="save btn btn-default">他のユーザに販売を確定済みです</button>
+                          {% endif %}
+                        {% endif %}
+                      </form>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              {% endfor %}
+            {% else %}
+              <p>購入希望中のユーザはいません。</p>
+            {% endif %}
+            <h5>チャットのみ進行中のユーザー</h5>
+            {% if chatting_but_not_wanting_users %}
+              {% for catting_user in chatting_but_not_wanting_users %}
+                <table class="table">
+                  <tbody>
+                  <tr>
+                    <td>{{ catting_user }}</td>
+                    <td><a href="{% url 'product:product_direct_chat' product.pk catting_user.pk %}">非公開チャット</a></td>
+                  </tr>
+                  </tbody>
+                </table>
+              {% endfor %}
+            {% else %}
+              <p>チャットのみ進行中のユーザはいません。</p>
+            {% endif %}
+          {% endif %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% include "footer_sell_button.html" %}
+  {% if is_redirect_from_created_product %}
+    {% include "product/after_create_product_modal.html" %}
+  {% endif %}
+  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.1';
+      fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+{% endblock %}
+{% block post_javascript %}
+  <script async>
+      $(document).ready(function() {
+          function changeWatchListButtonTextWhenInIt(){
+              $('#toggle-watchlist-button').text("ウォッチリストから外す");
+          }
+          function changeWatchListButtonTextWhenNotInIt(){
+              $('#toggle-watchlist-button').text("ウォッチリストに追加");
+          }
+          function addWatchlist(){
+              let apiURL = "{% url 'watchlist:add_watch_list' %}";
+              $.ajax({
+                  'type': 'POST',
+                  'url': apiURL,
+                  'data': {'product_pk': {{ product.pk }} },
+                  'cache': false,
+              }).done(function(result){
+                  alert("ウォッチリストに追加されました。")
+                  changeWatchListButtonTextWhenInIt();
+                  changeBehaviorToggleButton(true);
+              }).fail(function(result){
+                  alert("APIエラーです。もう一度試してみてください")
+                  changeWatchListButtonTextWhenNotInIt();
+                  changeBehaviorToggleButton(false);
+              });
+          }
+
+          function removeFromWatchlist(){
+              let apiURL = "{% url 'watchlist:remove_from_watch_list' %}";
+              $.ajax({
+                  'type': 'POST',
+                  'url': apiURL,
+                  'data': {'product_pk': {{ product.pk }} },
+                  'cache': false,
+              }).done(function(result){
+                  alert("ウォッチリストから削除されました。")
+                  changeWatchListButtonTextWhenNotInIt();
+                  changeBehaviorToggleButton(false);
+              }).fail(function(result){
+                  alert("APIエラーです。もう一度試してみてください")
+                  changeWatchListButtonTextWhenNotInIt();
+                  changeBehaviorToggleButton(false);
+              });
+          }
+
+          function changeBehaviorToggleButton(isInWatchlist){
+              $('#toggle-watchlist-button').click(function() {  // ボタンクリックでAJAX
+                  if(isInWatchlist){
+                      removeFromWatchlist()
+                  }else{
+                      addWatchlist()
+                  }
+              });
+          }
+
+          let productIsInWatchlistApiURL = "{% url 'watchlist:is_in_watch_list' %}";
+          $.ajax({
+              'type': 'GET',
+              'url': productIsInWatchlistApiURL + '?product_pk={{ product.pk }}',
+              'cache': false,
+          }).done(function(result){
+              if(result.is_in_watch_list === 'true'){
+                  changeWatchListButtonTextWhenInIt();
+                  changeBehaviorToggleButton(true);
+              }else{
+                  changeWatchListButtonTextWhenNotInIt();
+                  changeBehaviorToggleButton(false);
+              }
+          }).fail(function(){
+              alert("APIエラー");
+              changeWatchListButtonTextWhenNotInIt();
+              changeBehaviorToggleButton(false);
+          });
+      })();
+  </script>
+  {% if is_redirect_from_created_product %}
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        $(window).on('load',function(){
+            $('#after-create-product-modal').modal('show');
+        });
+    </script>
+  {% endif %}
+{% endblock %}

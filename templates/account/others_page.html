@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load show_product_list %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/user_page.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-8 offset-2">
+      <div id="user-icon">
+        <img src="{% if others_user.icon_url %}{{ others_user.icon_url }}{% else %}{% static 'img/placeholder.png' %}{% endif %}" class="img-fluid"> 
+      </div>
+    </div>
+  </div>
+  <h1 id="user-name">{{ others_user.username }}</h1>
+  <div class="row">
+    <div class="offset-lg-3 col-12 col-lg-6">
+      <div class="card rating-list">
+        <div class="row">
+          <div class="col-4 text-center">
+            <i class="fa fa-smile good">
+              <div class="rating-count">
+                {{ good_rating_count }}
+              </div>
+            </i>
+          </div>
+          <div class="col-4 text-center">
+            <i class="fa fa-meh normal">
+              <div class="rating-count">
+                {{ normal_rating_count }}
+              </div>
+            </i>
+          </div>
+          <div class="col-4 text-center">
+            <i class="fa fa-frown bad">
+              <div class="rating-count">
+                {{ bad_rating_count }}
+              </div>
+            </i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <h2>プロフィール</h2>
+  {% if others_user.intro %}
+    <p>{{ others_user.intro | urlize | linebreaksbr}}</p>
+  {% else %}
+    <p>プロフィールには何も書かれていません</p>
+  {% endif %}
+  <h2>{{ others_user.username }}の出品商品一覧</h2>
+  {% if others_user_product_list %}
+    {% show_product_list others_user_product_list %}
+  {% else %}
+    <p>このユーザはまだ商品を出品していません。</p>
+  {% endif %}
+</div>
+{% if is_after_rating %}
+  {% include "after_rating_modal.html" %}
+{% endif %}
+{% endblock %}
+{% if is_after_rating %}
+  {% block post_javascript %}
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        $(window).on('load',function(){
+            $('#after-rating-modal').modal('show');
+        });
+    </script>
+  {% endblock %}
+{% endif %}

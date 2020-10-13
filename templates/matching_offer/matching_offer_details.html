@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load details_images_carousel %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/footer_sell_button.css' %}">
+  <link rel="stylesheet" href="{% static 'css/details_page.css' %}">
+{% endblock %}
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <div class="matching_offer">
+          <div class="h3">{{ matching_offer.title }}</div>
+          {% details_images_carousel matching_offer.matchingofferimage_set.all %}
+          <div class="sns-buttons">
+            <div class="twitter-button">
+              <a href="//twitter.com/share" class="twitter-share-button" data-text="{{matching_offer.title}} {{'https://hufurima.com'}}{{request.path}} #ホクマ #北大 @hufurimaさんから" data-url="{{'https://hufurima.com'}}{{request.path}}" data-lang="ja">Tweet</a>
+            </div>
+            <div class="fb-share-button" data-href="{{'https://hufurima.com'}}{{request.path}}" data-layout="button_count" data-size="small" data-mobile-iframe="true">
+              <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{'https://hufurima.com'}}{{request.path}}&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <table class="table">
+      <thead>
+      <tr>
+        <th>作成者</th>
+        <td><a href="{% url 'account:others_page' matching_offer.host.pk %}">{{ matching_offer.host }}</a></th>
+      </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+    <p>{{ matching_offer.description | urlize | linebreaksbr }}</p>
+    <section id="chat-wrap" style="margin-top: 50px">
+      {% include 'matching_offer/_offer_chat_html.html' %}
+    </section>
+  </div>
+  {% include "footer_sell_button.html" %}
+  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.1';
+      fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+{% endblock %}
+{% block post_javascript %}
+  {% include 'matching_offer/_offer_chat_js.html' %}
+{% endblock %}

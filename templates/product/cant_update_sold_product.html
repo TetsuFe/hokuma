@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+  <div class="container">
+    <h2>販売済みの商品です</h2>
+    <p>あなたの出品した「{{ product_name }}」は販売済みのため、商品情報を変更することはできません。（販売後の情報変更によるトラブル防止のためです）</p>
+    <a href="{% url 'product:product_details' pk=product_pk %}">商品ページに戻る</a>
+  </div>
+{% endblock %}

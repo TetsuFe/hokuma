@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load show_pagenated_matching_offer_list %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/footer_sell_button.css' %}">
+{% endblock %}
+{% block content %}
+  <div class="container">
+    <h2>最新募集</h2>
+    <hr>
+    <p>勉強仲間・同じ趣味の友達・イベント参加者等を募集したい人は<a href="{% url 'matching_offer:create_matching_offer' %}">こちら！</a></p>
+    {% if matching_offer_list %}
+      {% show_pagenated_matching_offer_list request matching_offer_list %}
+    {% else %}
+      <p>募集はありません。初めての仲間募集をしてみませんか？</p>
+    {% endif %}
+  </div>
+{% endblock %}

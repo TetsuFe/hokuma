@@ -1,0 +1,84 @@
+.item-wrap a:hover {
+  text-decoration: none;
+}
+.item {
+  padding:5px;
+  border-radius: 5px;
+  border-style: solid;
+  border-color: gray;
+  border-width: 0.1px;
+  margin-bottom: 10px;
+}
+.caption h4 {
+  color: black;
+  height: 58px;
+  font-size: 24px;
+  margin: 10px 0 0 0;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.caption p {
+  color: #fe6222;
+  font-size: 20px;
+  margin: 0;
+}
+.ribbon_area {
+    position: absolute;
+    top: 1;
+    right: 7px;
+    width: 85px;
+    height: 85px;
+    overflow: hidden;
+}
+
+.big_ribbon_area {
+    right: 15px;
+    width: 90px;
+}
+
+.ribbon {
+    display: inline-block;
+    position: absolute;
+    padding: 5px 0;
+    left: -24px;
+    top: 20px;
+    width: 160px;
+    text-align: center;
+    font-size: 18px;
+    line-height: 16px;
+    background: red;
+    color: #fff;
+    letter-spacing: 0.05em;
+    /*
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    */
+    transform: rotate(45deg);
+    box-shadow: 0 0 0 2px rgb(255, 0, 0);
+    /*
+    border-top: dashed 1px rgba(255, 255, 255, 0.65);
+    border-bottom: dashed 1px rgba(255, 255, 255, 0.65);
+    */
+  z-index: 1001; /* 大きい方が上になる。soldoutのリボンを上に表示するため bootstrapが1000?のため */
+}
+
+.square-box{
+  position:relative;
+  overflow:hidden;
+  padding-bottom:100%;
+}
+
+.square-box img{
+  position:absolute;
+  display:block;
+  top:0;
+  bottom:0;
+  right:0;
+  left:0;
+  margin:auto;
+  height: 100%;
+  object-fit: contain;
+}
+

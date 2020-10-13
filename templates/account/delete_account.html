@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block content %}
+    <div class="container">
+        <h2>退会</h2>
+        <div class="alert alert-warning">注意：退会後は、二度と同じメールアドレスでは登録できません。</div>
+        <form method="post" action="{% url 'account:delete' %}">
+            {% csrf_token %}
+            {% bootstrap_form form layout='virtical' %}
+            <div class="form-group column">
+                <button type="submit" class="btn btn-primary">退会</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

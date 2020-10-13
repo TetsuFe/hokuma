@@ -1,0 +1,36 @@
+<div class="clearfix pc-header-nav">
+  <nav style="float:left;">
+    <ul style="list-style:none;padding:0;margin:0;">
+      <li class="dropdownpc dropdown">
+        <a id="pc-category" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" style="color: #333;text-decoration:none;">カテゴリーから探す <span class="caret"></span></a>
+        <ul class="dropdown-menu" role="menu" style="margin:0;">
+          {% if category_root_nodes %}
+            {% for node in category_root_nodes %}
+              <li class="dropdown-submenu">
+                <a href="{% url 'product:category_details' node.pk %}" class="dropdown-item">{{ node.name }}</a>
+                {% if not node.is_leaf_node %}
+                  <ul class="dropdown-menu">
+                    {% for child_node in node.children.all %}
+                      <li class="dropdown-submenu">
+                        <a href="{% url 'product:category_details' child_node.pk %}" class="dropdown-item">{{ child_node.name }}</a>
+                        {% if not child_node.is_leaf_node %}
+                          <ul class="dropdown-menu">
+                            {% for grandchild_node in child_node.children.all %}
+                              <li class="dropdown-submenu">
+                                <a href="{% url 'product:category_details' grandchild_node.pk %}" class="dropdown-item">{{ grandchild_node.name }}</a>
+                              </li>
+                            {% endfor %}
+                          </ul>
+                        {% endif %}
+                      </li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+              </li>
+            {% endfor %}
+          {% endif %}
+        </ul>
+      </li>
+    </ul>
+  </nav>
+</div>

@@ -1,0 +1,51 @@
+.footer-sell-btn {
+    position: fixed;
+    bottom: -14px;
+    right: -14px;
+    z-index: 1002;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #25b425;
+    color: #fff;
+    text-align: center
+}
+
+@media screen and (min-width: 768px) {
+    .footer-sell-btn {
+        bottom: 32px;
+        right: 32px;
+        width: 160px;
+        height: 160px;
+        font-size: 22px
+    }
+}
+
+.footer-sell-btn div {
+    margin: 14px 0 0
+}
+
+@media screen and (min-width: 768px) {
+    .footer-sell-btn div {
+        margin: 32px 0 0
+    }
+}
+
+.footer-sell-btn:hover {
+    opacity: 1;
+    text-decoration: none;
+    color: #fff;
+}
+
+.footer-sell-btn .icon-camera {
+    margin: 4px 0 0;
+    font-size: 24px
+}
+
+@media screen and (min-width: 768px) {
+    .footer-sell-btn .icon-camera {
+        margin: 8px 0 0;
+        font-size: 54px
+    }
+}
+

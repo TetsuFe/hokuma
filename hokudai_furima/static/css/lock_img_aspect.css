@@ -1,0 +1,45 @@
+.imgAspect{
+  position: relative;
+  width: 100%;
+}
+
+.imgAspect.ratio1_1:before{
+  content: "";
+  display: block;
+  padding-top:100%;
+}
+
+.imgAspect img{
+  position:absolute;
+  display:block;
+  top:0;
+  bottom:0;
+  right:0;
+  left:0;
+  margin:auto;
+  height: 100%;
+  object-fit: contain;
+}
+
+.imgAspect img[class='width_larger'] {
+/*.width_larger{*/
+  width: 100%;
+  height: auto;
+}
+
+.imgAspect img[class='height_larger'] {
+/*.width_larger{*/
+  width: auto;
+  height: 100%;
+}
+
+
+/*
+.imgAspect img {
+*/
+
+/*.height_larger{
+  width: auto;
+  height: 100%;
+}
+*/

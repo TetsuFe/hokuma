@@ -1,0 +1,34 @@
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/product_items.css' %}">
+{% endblock %}
+<div class="container">
+  <div class="row">
+  {% for product in product_list %}
+    <div class="col-6 col-lg-3" style="padding:2px;">
+      <div class="item-wrap">
+        <div class="item">
+          <a href="{% url 'product:product_details' pk=product.pk %}">
+            {% if product.is_sold %}
+              <div class="ribbon_area">
+                <span class="ribbon">SOLD</span>
+              </div>
+            {% endif %}
+            <div class="square-box">
+              {% if product.productimage_set.first %}
+                <img data-src="{{ product.productimage_set.first.thumbnail_url }}" class="lazyload img-fluid">
+              {% else %}
+                <img data-src="{% static 'img/placeholder.png' %}" class="lazyload img-fluid">
+              {% endif %}
+            </div>
+            <div class="caption">
+              <h4>{{ product.title}}</h4>
+              <p>¥ {{ product.price }}</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+</div>

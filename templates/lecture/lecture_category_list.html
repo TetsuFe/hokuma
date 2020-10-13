@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load static %}
+{% load show_pagenated_lecture_category_list %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/footer_sell_button.css' %}">
+{% endblock %}
+{% block content %}
+  <div class="container">
+    <section>
+      <h2>科目区分検索</h2>
+      <hr>
+      {% if lecture_category_dict_list %}
+        {% show_pagenated_lecture_category_list request lecture_category_dict_list %}
+      {% else %}
+        <p>この科目区分の商品はまだ一つも出品されていません。最初の出品者になるチャンスです！<a href="{% url 'product:create_product' %}">出品する</a></p>
+      {% endif %}
+    </section>
+  </div>
+  {% include "footer_sell_button.html" %}
+{% endblock %}

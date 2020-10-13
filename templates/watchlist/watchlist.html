@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% load show_product_list %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/watchlist.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="container">
+        {% if user.is_authenticated %}
+            <h2>ウォッチリスト</h2>
+            {% show_product_list watchlist_product_list %}
+        {% endif %}
+    </div>
+{% endblock %}

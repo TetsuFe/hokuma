@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/notification.css' %}">
+{% endblock %}
+{% block content %}
+
+<div class="container">
+  {% if user.is_authenticated %}
+    <h2>お知らせ</h2>
+    {% include "notification/_notification_list.html" %}
+  {% endif %}
+</div>
+{% endblock %}

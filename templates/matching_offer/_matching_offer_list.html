@@ -1,0 +1,25 @@
+{% load static %}
+{% load bootstrap4 %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/matching_offer_items.css' %}">
+{% endblock %}
+<div class="container">
+  <div class="row">
+    {% for matching_offer in matching_offer_list %}
+      <div class="col-6 col-lg-3" style="padding:2px;">
+        <div class="card item-wrap">
+          <div class="item">
+            <a href="{% url 'matching_offer:matching_offer_details' pk=matching_offer.pk %}">
+              <div class="square-box">
+                <img data-src="{{ matching_offer.matchingofferimage_set.all.0.thumbnail_url }}" class="lazyload img-fluid">
+              </div>
+              <div class="caption">
+                <h4>{{ matching_offer.title}}</h4>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>

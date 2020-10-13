@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/footer_sell_button.css' %}">
+  <link rel="stylesheet" href="{% static 'css/mypage.css' %}">
+  <link rel="stylesheet" href="{% static 'css/todo_list.css' %}">
+  <link rel="stylesheet" href="{% static 'css/notification.css' %}">
+{% endblock %}
+{% load bootstrap4 %}
+{% load show_product_list %}
+{% load show_todo_list %}
+{% load show_notification_list %}
+{% load show_matching_offer_list %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="side col-lg-3 col-12 order-lg-1 order-12 list-group">
+      <a href="{% url "watchlist:show_watch_list" %}" class="list-group-item">ウォッチリスト</a>
+      <a href="{% url "notification:index" %}" class="list-group-item">お知らせ</a>
+      <a href="{% url "todo_list:show_todo_list" %}" class="list-group-item">TODOリスト</a>
+      <a href="{% url "account:edit" %}" class="list-group-item">プロフィール情報変更</a>
+      <a href="{% url "account:logout" %}" class="list-group-item">ログアウト</a>
+      <a href="{% url "account:delete" %}" class="list-group-item">退会</a>
+    </div>
+    <div class="col-lg-8 offset-lg-1 col-12 order-lg-2 list-group">
+      <div class="main">
+        <div id="user-icon">
+          <img data-src="{% if request.user.icon_url %}{{ request.user.icon_url }}{% else %}{% static 'img/placeholder.png' %}{% endif %}" class="lazyload img-fluid">
+        </div>
+        <h1 id="user-name">{{ request.user.username }}</h1>
+        <ul class="nav nav-tabs nav-justified">
+          <li class="nav-item"><a href="#tab1" class="nav-link active" data-toggle="tab" role="tab">TODO</a></li>
+          <li class="nav-item"><a href="#tab2" class="nav-link" data-toggle="tab" role="tab">お知らせ</a></li>
+        </ul>
+        <div class="tab-content">
+          <div id="tab1" class="tab-pane active" role="tabpanel">
+            {% show_todo_list done_todo_list undone_todo_list %}
+          </div>
+          <div id="tab2" class="tab-pane" role="tabpanel">
+            {% show_notification_list notification_list %}
+          </div>
+        </div>
+        <h2>出品中/販売済みの商品</h2>
+        {% if selling_product_list %}
+            {% show_product_list selling_product_list %}
+        {% else %}
+            <p>出品中/販売済みの商品はありません。</p>
+        {% endif %}
+        <h2>購入希望中の商品</h2>
+        {% if wanting_product_list %}
+            {% show_product_list wanting_product_list %}
+        {% else %}
+            <p>購入希望中の商品はありません。</p>
+        {% endif %}
+        <h2>募集中の仲間募集</h2>
+        {% if my_matching_offer_list %}
+          {% show_matching_offer_list my_matching_offer_list %}
+        {% else %}
+          <p>募集中の仲間募集はありません。</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% include "footer_sell_button.html" %}
+{% endblock %}

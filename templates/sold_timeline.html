@@ -1,0 +1,28 @@
+{% load static %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/sold_timeline.css' %}">
+{% endblock %}
+<div id="solo-timeline">
+  <h2>最近購入されている商品</h2>
+  <hr>
+  {% if latest_sold_products %}
+    <div id="wrap-sold-timeline">
+      <ul class="list-group">
+        {% for sold_product in latest_sold_products %}
+          <a href="{% url 'product:product_details' pk=sold_product.pk %}" class="list-group-item">
+            <div class="left-content">
+              <img data-src="{{ sold_product.icon }}" class="lazyload">
+            </div>
+            <div class="right-content">
+              <h4>{{ sold_product.title }}</h4>
+              <p id="sold-price">{{ sold_product.price }}円</p>
+              <p id="sold-date">{{ sold_product.sold_date }}</p>
+            </div>
+          </a>
+        {% endfor %}
+      </ul>
+    </div>
+  {% else %}
+    <p>最近購入されている商品はありません。</p>
+  {% endif %}
+</div>

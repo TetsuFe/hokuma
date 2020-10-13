@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% load show_pagenated_product_list %}
+{% block content %}
+  <div class="container">
+    <h2>科目区分：「{{ lecture_category.name }}」</h2>
+    <nav aria-label="ぱんくずリスト">
+      <ol class="breadcrumb">
+        {% for lecture_category in lecture_category_parent_chain %}
+          {% if forloop.counter1 == lecture_category_parent_chain.count %}
+            <li class="breadcrumb-item">
+              {% else %}
+            <li class="breadcrumb-item active">
+          {% endif %}
+          {% if lecture_category.children.exists %}
+            <a href="{% url 'lecture:lecture_category_list_with_pk' pk=lecture_category.pk %}">
+              {{ lecture_category.name }}
+            </a>
+          {% else %}
+            <a href="{% url 'lecture:lecture_category_details' pk=lecture_category.pk %}">
+              {{ lecture_category.name }}
+            </a>
+          {% endif %}
+        {% endfor %}
+      </ol>
+    </nav>
+    {% if child_lecture_categories %}
+      <h4>サブ区分</h4>
+      {% for child_lecture_category in child_lecture_categories %}
+        <ul>
+          <li>
+            <a href="{% url 'lecture:lecture_category_details' child_lecture_category.pk %}">{{ child_lecture_category.name }}</a>
+          </li>
+        </ul>
+      {% endfor %}
+    {% endif %}
+    {% if lecture_category_products %}
+      {% show_pagenated_product_list request lecture_category_products %}
+    {% else %}
+      <p>この科目区分の商品はまだありません。最初の出品者になるチャンスです！<a href="{% url 'product:create_product' %}">出品する</a></p>
+    {% endif %}
+  </div>
+{% endblock %}

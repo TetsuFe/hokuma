@@ -1,0 +1,17 @@
+{% load static %}
+{% for thumbnail_url in product_image_thumbnail_urls %}
+  <div class="col-3 " style="display:inline-block;">
+    <div class="imgAspect ratio1_1">
+      <img id="img{{forloop.counter0}}" src="{{ thumbnail_url }}" class="img-fluid" alt="img" onclick="$('#file_{{forloop.counter0}}').click();" name="thumbnail_img"> 
+    </div>
+    <div id="edde{{forloop.counter0}}" class="text-right"></div>
+  </div>
+{% endfor %}
+{% for placeholder_image_number in placeholder_image_number_list %}
+  <div class="col-3 " style="display:inline-block;">
+    <div class="imgAspect ratio1_1">
+      <img id="img{{placeholder_image_number}}" src="{% static 'img/placeholder.png' %}" width="100%" height="100%" alt="img" onclick="$('#file_{{placeholder_image_number}}').click();" name="thumbnail_img"> 
+    </div>
+    <div id="edde{{placeholder_image_number}}" class="text-right"></div>
+  </div>
+{% endfor %}

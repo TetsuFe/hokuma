@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block content %}
+  <div class="container">
+    {% if request.user.is_authenticated %}
+      <h2 style="text-align: center;">利用規約への同意のお願い</h2>
+      <div>
+        <p>本サイトにログインして利用を続ける場合に、利用規約とプライバシーポリシーへの同意が必要になりました。ご理解のほどよろしくお願い致します。</p>
+        <ul>
+          <li><a href="{% url 'site_rules:privacy_policy' %}" target="_blank">プライバシーポリシー</a></li>
+          <li><a href="{% url 'site_rules:tos' %}" target="_blank">利用規約</a></li>
+        </ul>
+      </div>
+      <div>
+        <p style="text-align: center">
+          <a href="{% url 'site_rules:agree' %}" class="btn btn-lg btn-primary" style="color:white; text-decoration:none">同意して利用を続ける</a>
+        </p>
+        <p style="text-align: center">
+          <a href="{% url 'account:logout' %}" class="btn btn-lg btn-secondary" style="color:white; text-decoration:none">同意しない</a>
+        </p>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

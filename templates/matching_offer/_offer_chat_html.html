@@ -1,0 +1,56 @@
+{% load static %}
+{% load bootstrap4 %}
+<head>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/chat.css' %}">
+</head>
+
+<div class="container">
+  <div id="chat">
+    <h1 style = "font-size:20px;" >チャット</h1>
+    <ul>
+      <li>質問・場所の相談など、自由にチャットしてください</li>
+      <li>このページのチャット内容は全てのユーザーが見ることができます。ご注意下さい</li>
+    </ul>
+    <ol class="talk_list">
+      {% for talk in talks %}
+        {% if talk.talker == request.user %}
+          <div class="user_talk" id="{{talk.id}}">
+        {% else %}
+          <div class="others_talk" id="{{talk.id}}">
+        {% endif %}
+      {% if talk.talker != request.user %}
+        <div><a href="{% url 'account:others_page' talk.talker.pk %}">{{ talk.talker }}</a></div>
+      {% else %}
+        <div>{{ talk.talker }}</div>
+      {% endif %}
+      <div class="balloon">{{ talk.text | urlize | linebreaksbr }}</div>
+      <div>{{ talk.created_date }}</div>
+      <form method="POST" action="{% url 'matching_offer:delete_offer_talk' %}" class="delete_talk_form">{% csrf_token %}
+        <input type="hidden" name="talk_id" value={{talk.id}}>
+        {% if talk.talker == request.user %}
+          <button type="submit" class="save btn btn-default">削除</button>
+        {% endif %}
+      </form>
+      </div>
+      {% endfor %}
+    </ol>
+  </div>
+
+  {% if request.user.is_authenticated %}
+    <div class="row">
+      <div class="col-lg-8 offset-lg-2 col-12">
+        <form id="user_talk_form">{% csrf_token %}
+          <input type="hidden" name="matching_offer_id" value={{matching_offer.id}}>
+          {% bootstrap_form form layout='virtical' %}
+          <div class="form-group column" id="save-button">
+            <button type="submit" class="save btn btn-default">送信</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  {% else %}
+    <p>チャットに投稿するにはログインが必要です</p>
+    <a href="{% url 'account:login' %}">ログイン</a>
+  {% endif %}
+</div>

@@ -1,0 +1,7 @@
+<ul class="list-group">
+{% for notification in notification_list %}
+<a href="{{ notification.relative_url }}" class="list-group-item list-group-item-action {{ notification.unread|yesno:'list-group-item-info, '}}">
+    <p>{{ notification.message }}</p>
+  </a>
+{% endfor %}
+</ul>

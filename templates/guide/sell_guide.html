@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/footer_sell_button.css' %}">
+  <link rel="stylesheet" href="{% static 'css/buy_guide.css' %}">
+{% endblock %}
+{% block content %}
+  <div class="container">
+    <h2>出品・販売ガイド</h2>
+    <section class="guide-section">
+      <h3>STEP1 出品する</h3>
+      <hr>
+      <p>画面右下の「出品」ボタンから出品フォームへ飛ぶことができます。フォームに商品情報を入力して確定ボタンを押せば、出品完了です。</p>
+      <img class="img-fluid" src="{% static "img/guide/sell_guide_1.png" %}">
+      <img class="img-fluid" src="{% static "img/guide/sell_guide_2.png" %}">
+      <img class="img-fluid" src="{% static "img/guide/sell_guide_3.png" %}">
+      <img class="img-fluid" src="{% static "img/guide/sell_guide_4.png" %}">
+    </section>
+    <section class="guide-section">
+      <h3>STEP2 お知らせを待つ</h3>
+      <hr>
+      <p>購入希望者が現れると、お知らせが届きます。また、「非公開チャット」で相手から連絡が来た時も、お知らせが届きます。お知らせは、登録したメールアドレスに届くメールまたはマイページから確認できます。</p>
+      <img class="img-fluid" src="{% static "img/guide/sell_guide_5.png" %}">
+      <img class="img-fluid" src="{% static "img/guide/sell_guide_6.png" %}">
+    </section>
+    <section class="guide-section">
+      <h3>STEP3 売る人を決める</h3>
+      <hr>
+      <p>購入希望者の中から、商品を売る人を決めましょう。キャンセルはできないので注意してください。</p>
+      <img class="img-fluid" src="{% static "img/guide/sell_guide_7.png" %}">
+      <img class="img-fluid" src="{% static "img/guide/sell_guide_9.png" %}">
+    </section>
+    <section class="guide-section">
+      <h3>STEP4 打ち合わせ</h3>
+      <hr>
+      <p>商品・料金をどこでどうやってやりとりするかを「非公開チャット」で打ち合わせしましょう。</p>
+      <img class="img-fluid" src="{% static "img/guide/sell_guide_7.png" %}">
+      <img class="img-fluid" src="{% static "img/guide/sell_guide_8.png" %}">
+    </section>
+    <section class="guide-section">
+      <h3>STEP5 商品の受け渡し</h3>
+      <hr>
+      <p>打ち合わせで決めた場所で商品の受け渡しを行いましょう。</p>
+      <a href="https://www.hokudai.ac.jp/introduction/campusmap_2018.pdf">札幌キャンパス地図（北海道大学公式）</a>
+    </section>
+    <section class="guide-section">
+      <h3>STEP6 購入者の評価</h3>
+      <hr>
+      <p>商品・料金の受け渡しが終わったら、必ず購入者を評価していただきますようお願いします。TODOリスト（お知らせ）から、購入者を評価するページへのリンクが届きます。今後利用する方のために、適切に評価をお願いします。</p>
+      <img class="img-fluid" src="{% static "img/guide/sell_guide_10.png" %}">
+      <img class="img-fluid" src="{% static "img/guide/sell_guide_11.png" %}">
+      <img class="img-fluid" src="{% static "img/guide/sell_guide_12.png" %}">
+    </section>
+  </div>
+  {% include "footer_sell_button.html" %}
+{% endblock %}

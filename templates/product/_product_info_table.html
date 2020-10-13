@@ -1,0 +1,30 @@
+<table class="table">
+  <thead>
+  <tr>
+    <th>出品者</th>
+    <th><a href="{% url 'account:others_page' product.seller.pk %}">{{ product.seller }}</a></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <th>出品状態</th>
+    <td>{{ product.is_sold|yesno:"売り切れ,販売中" }}</td>
+  </tr>
+  <tr>
+    <th>カテゴリ</th>
+    {% if product.category %}
+      <td><a href="{% url 'product:category_details' product.category.pk %}">{{ product.category }}</a></td>
+    {% else %}
+      <td>未設定</td>
+    {% endif %}
+  </tr>
+  <tr>
+    <th>科目区分</th>
+    {% if product.lecture_category %}
+      <td><a href="{% url 'lecture:lecture_category_details' product.lecture_category.pk %}">{{ product.lecture_category.name }}</a></td>
+    {% else %}
+      <td>未設定</td>
+    {% endif %}
+  </tr>
+  </tbody>
+</table>

@@ -1,0 +1,32 @@
+{% load static %}
+<script type="text/javascript" src="{% static 'js/delete_talk_ajax.js' %}"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#user_talk_form').submit(function() {  // ボタンクリックでAJAX
+            const matching_offer_id = $('input[name="matching_offer_id"]').val()
+            $.ajax({
+                'url': "{% url 'matching_offer:create_offer_talk' %}",
+                'type':'POST',
+                'data':{
+                    'matching_offer_id': matching_offer_id,
+                    'text': $('textarea[name="text"]').val(),
+                },
+                'dataType':'json',
+                'success':function(response){  // 通信が成功したら動く処理で、引数には返ってきたレスポンスが入る
+                    $('.talk_list').append(
+                        '<div class="user_talk" id="'+response.talk_id+'">'+
+                        '<div>'+ response.talker + '</div>'+
+                        '<div class="balloon">' + response.text + '</div>'+
+                        '<div>' + response.created_date + '</div>'+
+                        '<form method="POST" action="{% url 'chat:delete_talk' %}" class="delete_talk_form">'+
+                        '{% csrf_token %}'+
+                        '<input type="hidden" name="talk_id" value='+ response.talk_id +'>'+
+                        '<button type="submit" class="save btn btn-default">削除</button>'+
+                        '</form>'+
+                        '</div>');
+                },
+            });
+            return false;
+        });
+    });
+</script>

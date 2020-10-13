@@ -1,0 +1,185 @@
+{% load static %}
+{% load build_category_dropdown %}
+<!DOCTYPE html>
+<html lang="ja">
+  <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
+    {% include "gtm_head.html" %}
+    {% include "google_adsense.html" %}
+    <title>
+        {% block title %}
+        {% if product %}{{ product.title }} - ホクマ
+        {% else %}ホクマ 北大生のためのフリマサイト
+        {% endif %}
+        {% endblock %}
+    </title>
+      <meta name="description" content="北大生が開発！北大生による北大生のためのフリマサイト「ホクマ」です。直接会って渡すから、手数料０。北大生同士の運命の出会いもあるかも・・・？">
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      {% include "_ogp.html" %}
+    {% block meta_tags %}{% endblock %}
+    {% block css %}{% endblock %}
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/logo.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/icomoon.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/category_list_nav.css' %}">
+    <link rel="icon" href="{% static 'img/favicon.ico' %}">
+    <link rel="apple-touch-icon" href="{% static 'img/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" href="{% static 'img/android-touch-icon.png' %}">
+  </head>
+  <body>
+    <header>
+      <div class="header">
+        <div class="container">
+          <div id="pc-logo" class="logo">
+            <a href="{% url "home" %}">
+              <img data-src="{% static "img/hokuma_logo_pc.png" %}" class="lazyload" alt="ロゴ">
+            </a>
+          </div>
+          <div id="sp-logo" class="logo">
+            <a href="{% url "home" %}">
+              <img data-src="{% static "img/hokuma_logo_sp.png" %}" class="lazyload" alt="ロゴ">
+            </a>
+          </div>
+          <div class="search-bar">
+            <form method="GET" action="{% url 'search:search_product' %}" class="search-form ml-auto">
+              <input type='hidden' name="price_range" value='0_1000000' />
+              <input type='hidden' name="is_sold" value='all' />
+              <input type='hidden' name="sort_method" value='sort_new' />
+              <input type="text" id="header_query" name="q" class="form-control search" placeholder="キーワードから検索" value="">
+              <button class="btn btn-success search-button" type="submit">
+                <i class="fa fa-search" aria-hidden="true"></i>
+              </button>
+            </form>
+            <div id="header_suggest_area">
+            </div>
+          </div>
+          {% build_category_dropdown %}
+          <nav id="navbar">
+            <div class="nav-right">
+              <div id="pc-nav-content">
+                <div class="nav-right">
+                <ul>
+                  {% if request.user.is_authenticated %}
+                    <li class="watchlist">
+                      <a href="{% url "watchlist:show_watch_list" %}">
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                        <span>ウォッチリスト</span>
+                      </a>
+                    </li>
+                    <li class="notification">
+                      <a href="{% url "notification:index" %}">
+                        <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                        <span>お知らせ</span>
+                        <span class="notification-badge badge badge-info"></span>
+                      </a>
+                    </li>
+                    <li class="todo">
+                      <a href="{% url "todo_list:show_todo_list" %}">
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                        <span>TODO</span>
+                        <span class="todo-badge badge badge-info"></span>
+                      </a>
+                    </li>
+                    <li class="mypage-link">
+                      <a href="{% url "account:mypage" %}">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        <span>マイページ</span>
+                      </a>
+                    </li>
+                  {% else %}
+                    <li>
+                      <a class="btn btn-block btn-info header-button-login" href="{% url "account:login" %}">ログイン</a>
+                    </li>
+                    <li>
+                      <a class="btn btn-block btn-success header-button-signup" href="{% url "account:signup" %}">新規登録</a>
+                    </li>
+                  {% endif %}
+                </ul>
+                </div>
+              </div>
+              <div id="sp-nav-content">
+                <nav class="navbar navbar-light" style="padding: 10px 0">
+                  <div class="nav-right">
+                    {% if request.user.is_authenticated %}
+                      <div class="text-right" style="margin-right:0; text-align:right">
+                        <button type="button" class="btn" style="background-color:#fafafa; border-color:gray" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                          <span class="navbar-toggler-icon"></span>
+                        </button>
+                      </div>
+                      <div class="collapse navbar-collapse" id="collapseExample">
+                        <ul class="navbar-nav">
+                          <li class="nav-item">
+                            <a class="watchlist" href="{% url "watchlist:show_watch_list" %}">
+                              <i class="fa fa-check" aria-hidden="true"></i>
+                              <span>ウォッチリスト</span>
+                            </a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="notification" href="{% url "notification:index" %}">
+                              <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                              <span>お知らせ</span>
+                              <span class="notification-badge badge badge-info"></span>
+                            </a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="todo" href="{% url "todo_list:show_todo_list" %}">
+                              <i class="fa fa-check" aria-hidden="true"></i>
+                              <span>TODO</span>
+                              <span class="todo-badge badge badge-info"></span>
+                            </a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="mypage-link" href="{% url "account:mypage" %}">
+                              <i class="fa fa-user" aria-hidden="true"></i>
+                              <span>マイページ</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    {% else %}
+                      <ul>
+                        <li>
+                          <a class="btn btn-block btn-info header-button-login" href="{% url "account:login" %}">ログイン</a>
+                        </li>
+                        <li>
+                          <a class="btn btn-block btn-success header-button-signup" href="{% url "account:signup" %}">新規登録</a>
+                        </li>
+                      </ul>
+                    {% endif %}
+                    </div>
+                </nav>
+              </div>
+            </div>
+          </nav>
+      </div>
+    </header>
+    <main>
+      {% if messages %}
+        <div class="container">
+          <ul class="messages" style="padding-left: 0px;">
+            {% for message in messages %}
+            <li style="list-style-type: none;"{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}><strong>{{ message }}</strong></li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+      {% block content %} {% endblock %}
+    </main>
+    <footer>
+      {% include "footer.html" %}
+    </footer>
+    {% include "gtm_body.html" %}
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{% static 'js/csrf_token_ajax.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/incremental_search.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/load_badge_numbers.js' %}"></script>
+    <script src="{% static "js/lazysizes.min.js" %}" async=""></script>
+  {% block post_javascript %}
+  {% endblock %}
+  </body>
+</html>

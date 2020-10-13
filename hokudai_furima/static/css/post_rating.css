@@ -1,0 +1,28 @@
+/* カラーコードはbootstrap4を参考 */
+
+i.good {
+  color: #dc3545;
+  font-size: 32px;
+}
+
+i.normal {
+  color: #ffc107;
+  font-size: 32px;
+}
+
+i.bad {
+  color: #007bff;
+  font-size: 32px;
+}
+
+.radio > label {
+  display: inline-block
+}
+
+i.rating {
+  margin-top: 10px;
+}
+
+.rating-button {
+  margin-top: 30px;
+}

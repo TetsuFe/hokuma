@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block content %}
+    <div class="container">
+        {% if user.is_authenticated %}
+            <h2>ウォッチリスト</h2>
+            <p>ウォッチリストには何も登録されていません。商品ページなどから、ウォッチリストを登録してください。</p>
+        {% endif %}
+    </div>
+{% endblock %}

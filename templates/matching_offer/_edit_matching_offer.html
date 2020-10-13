@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block content %}
+  <script>
+      let PLACEHOLDER_IMAGE = "{% static 'img/placeholder.png' %}";
+  </script>
+  <link rel="stylesheet" href="{% static 'css/lock_img_aspect.css' %}">
+  <link rel="stylesheet" href="{% static 'css/submit_button.css' %}">
+
+  <div class="container">
+    {% block subject %}
+    {% endblock %}
+    <div class="form-group">
+      <label for="upload-image_files">画像</label>
+      <div class="row">
+        {% if matching_offer_image_thumbnail_urls %}
+          {% include "matching_offer/_image_list_update.html" %}
+        {% else %}
+          {% include "matching_offer/_image_list_create.html" %}
+        {% endif %}
+      </div>
+    </div>
+    <form method="POST" enctype="multipart/form-data" class="post-form">{% csrf_token %}
+      {% bootstrap_form matching_offer_form layout='virtical' %}
+      {% for matching_offer_image_form in matching_offer_image_forms %}
+        {% bootstrap_form matching_offer_image_form layout='virtical' %}
+      {% endfor %}
+      {% for _ in '0123'|make_list %}
+        <input type="hidden" name="image_{{forloop.counter0}}_exists" value=0>
+      {% endfor %}
+      <div class="form-group column">
+        <button id="submit" type="submit" class="btn submit_button">作成 / 更新</button>
+      </div>
+    </form>
+  </div>
+{% endblock %}
+{% block post_javascript %}
+  <script type="text/javascript" src="{% static 'js/image_form_utils.js' %}"></script>
+{% endblock %}

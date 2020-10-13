@@ -1,0 +1,15 @@
+{% load bootstrap4 %}
+<form method="post" action="{% url 'account:login' %}" novalidate>
+  {% csrf_token %}
+  <h3>ログイン</h3>
+  {% bootstrap_form form layout='virtical' %}
+    {% if next %}
+      <input type="hidden" name="next" value="{{ next }}" />
+    {% endif %}
+    <div class="form-group">
+      <button type="submit" class="btn btn-info">
+        ログイン
+      </button>
+    </div>
+</form>
+<p>アカウントを作成していない場合、<a href="{% url "account:signup" %}">新規登録</a></p>

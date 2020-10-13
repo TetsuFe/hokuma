@@ -1,0 +1,49 @@
+{% load static %}
+{% load bootstrap4 %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/matching_offer_items.css' %}">
+  <link rel="stylesheet" href="{% static 'css/pagenation_item.css' %}">
+{% endblock %}
+<div class="container">
+  <div class="row">
+    {% for matching_offer in matching_offer_list %}
+      <div class="col-6 col-lg-3" style="padding:2px;">
+        <div class="card item-wrap">
+          <div class="item">
+            <a href="{% url 'matching_offer:matching_offer_details' pk=matching_offer.pk %}">
+              <div class="square-box">
+                <img data-src="{{ matching_offer.matchingofferimage_set.all.0.thumbnail_url }}" class="lazyload img-fluid">
+              </div>
+              <div class="caption">
+                <h4>{{ matching_offer.title}}</h4>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  <nav class="page-navigation">
+    <ul class="pagination">
+      <li class="page-item">
+        <a class="page-link" href="{{ url_with_params }}page=1" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+          <span class="sr-only">Previous</span>
+        </a>
+      </li>
+      {% if matching_offer_list.has_previous %}
+        <li class="page-item"><a class="page-link" href="{{ url_with_params }}page={{ matching_offer_list.previous_page_number }}">{{ matching_offer_list.previous_page_number }}</a></li>
+      {% endif %}
+      <li class="page-item active"><a class="page-link" href="{{ url_with_params }}page={{ matching_offer_list.number }}">{{ matching_offer_list.number }}</a></li>
+      {% if matching_offer_list.has_next %}
+        <li class="page-item"><a class="page-link" href="{{ url_with_params }}page={{ matching_offer_list.next_page_number }}">{{ matching_offer_list.next_page_number }}</a></li>
+      {% endif %}
+      <li class="page-item">
+        <a class="page-link" href="{{ url_with_params }}page={{ matching_offer_list.paginator.num_pages }}" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+          <span class="sr-only">Next</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>

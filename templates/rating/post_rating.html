@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/product_items.css' %}">
+  <link rel="stylesheet" href="{% static 'css/post_rating.css' %}">
+{% endblock %}
+{% block content %}
+  <div class="container">
+    <h2>ユーザ評価</h2>
+    <p>{{rated_user_name}}さんの評価をしましょう！</p>
+    <form method="POST" action="{% url 'rating:post_rating' product_pk %}" enctype="multipart/form-data" class="post-form">{% csrf_token %}
+      <div class="row">
+        <div class="col-lg-3"></div>
+        {% for value, name in form.fields.rating.choices %}
+          <div class="col-4 col-lg-2 text-center">
+            <div class="radio card">
+              <label for="id_rating_{{value}}">
+                <div>
+                  {% if value == 'good' %}
+                    <i class="fa fa-smile {{value}} rating"></i>
+                  {% elif value == 'normal' %}
+                    <i class="fa fa-meh {{value}} rating"></i>
+                  {% elif value == 'bad' %}
+                    <i class="fa fa-frown {{value}} rating"></i>
+                  {% endif %}
+                </div>
+                <div>
+                  {{name}}
+                </div>
+                <input type="radio" name="rating" value="{{value}}" class="" title="" required id="id_rating_{{value}}" />
+              </label>
+            </div>
+          </div>
+        {% endfor %}
+        <div class="col-lg-3"></div>
+      </div>
+      <div class="form-group column text-center">
+        <button id="submit" type="submit" class="btn btn-success rating-button">送信</button>
+      </div>
+    </form>
+  </div>
+{% endblock %}

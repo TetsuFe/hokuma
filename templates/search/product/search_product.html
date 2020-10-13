@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load show_pagenated_product_list %}
+{% load show_product_list %}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/product_list.css' %}">
+    <link rel="stylesheet" href="{% static 'css/footer_sell_button.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <div>
+            <form method="GET" class="post-form">
+                {% bootstrap_form keyword_form layout='virtical' %}
+                <div id="main_suggest_area">
+                </div>
+                {% bootstrap_form option_form layout='virtical' %}
+            <div class="form-group column" style="text-align:center;">  
+                <button type="submit" class="btn">検索</button>
+            </div>
+            </form>
+        </div>
+
+        {% if is_searched %}
+            <h2>検索結果</h2>
+            {% if product_list %}
+              {% show_pagenated_product_list request product_list %}
+            {% else %}
+                <p>そのキーワードに一致する商品は見つかりませんでした。</p>
+                <h2>最新商品</h2>
+                {% if latest_product_list %}
+                  {% show_product_list latest_product_list %}
+                {% else %}
+                  <p>商品はまだ一つも出品されていません。最初の出品者になるチャンスです！<a href="{% url 'product:create_product' %}">出品する</a></p>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    </div>
+    {% include "footer_sell_button.html" %}
+{% endblock %}

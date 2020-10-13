@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block content %}
+  <div class="container">
+    <h2 style="text-align:center">お問い合わせ</h2>
+      <p>お客様が入力した情報は次のようになります</p>
+      <h2>メールアドレス</h2>
+      <p>{{ email }}</p>
+      <h2>お問い合わせ内容</h2>
+    <p>{{ text }}</p>
+  </div>
+{% endblock %}

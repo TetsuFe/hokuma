@@ -1,0 +1,44 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+botocore = "==1.10.24"
+certifi = "==2018.11.29"
+chardet = "==3.0.4"
+docutils = "==0.14"
+idna = "==2.8"
+jmespath = "==0.9.3"
+pytz = "==2018.9"
+python-dateutil = "==2.7.3"
+s3transfer = "==0.1.13"
+django.utils.six = "==1.14.0"
+urllib3 = "==1.24.1"
+Pillow = "==5.0.0"
+django-js-asset = "==1.1.0"
+django-debug-toolbar = "*"
+
+[packages]
+boto3 = ">=1.13.0"
+dj-database-url = "==0.5.0"
+django-bootstrap4 = ">=1.1.1"
+django-mptt = ">=0.11.0"
+django-storages = "==1.9.1"
+django-versatileimagefield = ">=2.0"
+gunicorn = "==19.7.1"
+psycopg2 = "==2.7.4"
+psycopg2-binary = "==2.7.4"
+rules = ">=2.2"
+Django = ">=3.0"
+requests = "==2.21.0"
+
+[requires]
+python_version = "3.6"
+
+[scripts]
+server = "python3 manage.py runserver"
+mm = "python3 manage.py makemigrations"
+m = "python3 manage.py migrate"
+shell = "python3 manage.py shell"
+test = "python3 manage.py test"

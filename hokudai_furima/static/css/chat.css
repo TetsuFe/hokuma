@@ -1,0 +1,7 @@
+label[for=id_sentence] {
+    display: none;
+}
+
+#save-button{
+    text-align: center;
+}

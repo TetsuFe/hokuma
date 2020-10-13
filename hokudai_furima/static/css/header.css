@@ -1,0 +1,109 @@
+.header {
+  padding-top: 10px;
+  background-color:#fafafa;
+}
+
+.logo {
+  float: left;
+}
+
+.search-form {
+  float: left;
+  height: 50px;
+  display: inline-flex;
+  width:100%;
+}
+
+input[type=text], .search {
+  height: 100%;
+  width: 100%;
+}
+
+.search-button {
+  display: block;
+  float: right;
+  height: 50px;
+  width: 50px;
+}
+
+#header_suggest_area {
+  padding-top: 10px;
+  clear:left;
+}
+
+/* PC用ロゴ */
+#pc-logo img {
+  height: 50px;
+  width: 200px;
+}
+
+/* スマホ用ロゴ */
+#sp-logo img {
+  height: 50px;
+  width: 50px;
+}
+
+/* PC用とスマホ用での分岐 */
+@media screen and (max-width: 800px) {
+ /* 600px以下の場合 */
+  #pc-logo {
+    display: none;
+  }
+  .search-bar {
+    margin-left: 50px;
+  }
+  #pc-nav-content {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 801px) {
+   /* 601px以上の場合 */
+  #sp-logo {
+    display: none;
+  }
+  .search-bar {
+    margin-left: 200px;
+  }
+  #sp-nav-content {
+    display: none;
+  }
+}
+
+/* ナビゲーションバー */
+#navbar {
+  overflow: hidden;
+}
+
+.nav-left {
+  /* 未実装 */
+}
+
+.nav-right {
+  float: right;
+}
+
+#navbar ul{
+  list-style: none;
+}
+
+#navbar li {
+  padding-left: 30px;
+  text-align: center;
+  float: left;
+  height: 50px;
+  line-height: 50px;
+}
+
+#navbar li a {
+  text-decoration: none;
+  color: #000; /*.header-button-login と .header-button-signup には !importantで上書きされる*/
+}
+
+.header-button-login {
+  color: white !important;
+}
+
+.header-button-signup {
+  color: white !important;
+}
