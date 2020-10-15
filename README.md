@@ -1,10 +1,9 @@
 # ホクマ
+サービス終了したフリマWebアプリ「ホクマ」のソースコードです。
 
-[![CircleCI](https://circleci.com/gh/HUITCLUB/hokudai_furima/tree/master.svg?style=svg)](https://circleci.com/gh/HUITCLUB/hokudai_furima/tree/master)
-
+## 特徴
 - 北大生だけで安全な売り買いができるフリマWebサービス
 - 直接手渡しで渡すスタイルなので、運命の出会いも・・・？
-- URL: [https://hufurima.com/](https://hufurima.com/)
 
 ## ScreenShot 
 <img src="./screenshot/home_for_readme1.png" alt="ホクマスクショ1" width="650" height="500">
@@ -14,6 +13,10 @@
 
 ## 技術構成図
 <img src="./screenshot/hokuma_tech_map.jpg" alt="ホクマ技術構成図" width="650" height="500">
+
+詳しくはこちらをご覧ください。
+
+[https://swiftfe0.hatenablog.com/entry/2019/05/02/013313](https://swiftfe0.hatenablog.com/entry/2019/05/02/013313)
 
 
 ## できること
@@ -36,15 +39,11 @@
 - Django 2.1.5
 
 
-## 開発に参加する(start contribution)
-[このドキュメント](docs/開発に参加する.md)を読んで、ぜひ開発チームに加わってほしいです！
+## PRを送りたい方へ
+PRを送りたい方は、気軽に送ってください。ドキュメントのtypoなどの小さなものでも歓迎です。[このドキュメント](docs/開発に参加する.md)を読んでください。
 
 以下のメリットがあります
 
-- Webアプリ開発の基礎が身に付く
-  - サーバーサイドの定番: MTV(like MVC)アーキテクチャ
-  - ORMを用いた基本的なDB操作
-  - 基本的なHTML, CSS, 古典的なJavascript(JSには期待しないで)
 - Githubの使い方が身に付く(issue, pull requestの基本)
   - 大まかに[この記事](https://qiita.com/awakia/items/c571e93e96a1ec28044f)に基づいています
 - コードレビューが受けられる
@@ -65,10 +64,12 @@ DjangoとBootstrap4の基礎といっても、ほとんど知識は必要あり�
 - @horikaw
 - @Tatmius
 - @Gracer828 
+- @Hpanda
 
 
 ## メイン開発チーム
 - HUITCLUB: [Twitter](https://twitter.com/huitclub)
+- ホクマ開発チーム: [Twitter](https://twitter.com/hufurima)
 
 
 ## SNS
